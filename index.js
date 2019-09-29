@@ -55,7 +55,6 @@ async function getConcurrent() {
     } catch (e) {
         console.log(e)
     }
-
     children.map(async (i) => {
         let code1 = i.toString().padStart(2, '0')
         try {
@@ -80,32 +79,6 @@ async function getConcurrent() {
             }
         })
     })
-
-    // for (let i = 0; i < 35; i++) {
-    //     let code1 = i.toString().padStart(2, '0')
-    //     try {
-    //         let r = await http.get(ug('children', code1))
-    //         await (async (r) => {
-    //             await console.log('获取children/51' + code1 + '00成功')
-    //             await appendFile('./map/51' + code1 + '00.json', JSON.stringify(r.data))
-    //             console.log('保存children/51' + code1 + '00成功')
-    //         })(r)
-    //     } catch (e) {
-    //     }
-    //
-    //     for (let j = 1; j < 100; j++) {
-    //         let code2 = j.toString().padStart(2, '0')
-    //         try {
-    //             let r = await http.get(ug('bound', code1, code2))
-    //             await (async (r) => {
-    //                 await console.log('###获取bound/51' + code1 + code2 + '成功')
-    //                 await appendFile('./map/51' + code1 + code2 + '.json', JSON.stringify(r.data))
-    //                 console.log('###保存bound/51' + code1 + code2 + '成功')
-    //             })(r)
-    //         } catch (e) {
-    //         }
-    //     }
-    // }
 }
 
 //继发
