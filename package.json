@@ -9,7 +9,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "于洋",
+  "author": "Lil Rich",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.19.0",
