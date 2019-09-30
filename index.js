@@ -7,7 +7,7 @@ function ug(sort, code1, code2 = '00') {
     return baseUrl + sort + '/51' + code1 + code2 + '.json'
 }
 
-function promisify(fn, t, argsNum = 3) {
+function promisify(fn, t, argsNum = 3) { //t:this  args:参数个数
     return (...args) => {
         let arr = Array.from(args).slice(0, argsNum - 2)
         return new Promise((resolve, reject) => {
