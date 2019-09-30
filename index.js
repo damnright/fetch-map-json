@@ -22,32 +22,10 @@ const rmdir = promisify(fs.rmdir, fs),
     mkdir = promisify(fs.mkdir, fs),
     appendFile = promisify(fs.appendFile, fs, 4)
 
-//递归
-// let i = 0,j = 0
-// function rcGet() {
-//     console.log(i)
-//     let code1 = i.toString().padStart(2, '0')
-//     http.get(ug('children', code1)).then(r => {
-//         console.log('获取children/51' + code1 + '00成功')
-//         fs.appendFile('./map/51' + code1 + '00.json', JSON.stringify(r.data), (err) => {
-//             if (err) throw err;
-//             console.log('保存children/51' + code1 + '00成功');
-//             i++
-//             if(i < 35){
-//                 rcGet()
-//             }
-//         })
-//     }, e => {
-//     })
-// }
-//
-// rcGet()
-
+//并发
 const children = [...Array(35).keys()]
 const bound = [...Array(100).keys()]
 bound.shift()
-
-//并发
 async function getConcurrent() {
     try {
         await rmdir('./map', {recursive: true})
