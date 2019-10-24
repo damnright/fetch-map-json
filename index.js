@@ -22,10 +22,11 @@ const rmdir = promisify(fs.rmdir, fs),
     mkdir = promisify(fs.mkdir, fs),
     appendFile = promisify(fs.appendFile, fs, 4)
 
-//并发
 const children = [...Array(35).keys()]
 const bound = [...Array(100).keys()]
 bound.shift()
+
+//并发
 async function getConcurrent() {
     try {
         await rmdir('./map', {recursive: true})
@@ -40,18 +41,18 @@ async function getConcurrent() {
             await (async (r) => {
                 await console.log('获取children/51' + code1 + '00成功')
                 await appendFile('./map/51' + code1 + '00.json', JSON.stringify(r.data))
-                console.log('保存children/51' + code1 + '00成功')
+                await console.log('保存children/51' + code1 + '00成功')
             })(r)
         } catch (e) {
         }
-        bound.map(async (j) => {
+        await bound.map(async (j) => {
             let code2 = j.toString().padStart(2, '0')
             try {
                 let r = await http.get(ug('bound', code1, code2))
                 await (async (r) => {
                     await console.log('###获取bound/51' + code1 + code2 + '成功')
                     await appendFile('./map/51' + code1 + code2 + '.json', JSON.stringify(r.data))
-                    console.log('###保存bound/51' + code1 + code2 + '成功')
+                    await console.log('###保存bound/51' + code1 + code2 + '成功')
                 })(r)
             } catch (e) {
             }
@@ -59,7 +60,41 @@ async function getConcurrent() {
     })
 }
 
-//继发
+//继发for of
+async function getConcurrentByForOf() {
+    try {
+        await rmdir('./map', {recursive: true})
+        await mkdir('./map', {recursive: true})
+    } catch (e) {
+        console.log(e)
+    }
+    for (const i of children){
+        let code1 = i.toString().padStart(2, '0')
+        try {
+            let r = await http.get(ug('children', code1))
+            await (async (r) => {
+                await console.log('获取children/51' + code1 + '00成功')
+                await appendFile('./map/51' + code1 + '00.json', JSON.stringify(r.data))
+                await console.log('保存children/51' + code1 + '00成功')
+            })(r)
+        } catch (e) {
+        }
+        for (const j of bound){
+            let code2 = j.toString().padStart(2, '0')
+            try {
+                let r = await http.get(ug('bound', code1, code2))
+                await (async (r) => {
+                    await console.log('###获取bound/51' + code1 + code2 + '成功')
+                    await appendFile('./map/51' + code1 + code2 + '.json', JSON.stringify(r.data))
+                    await console.log('###保存bound/51' + code1 + code2 + '成功')
+                })(r)
+            } catch (e) {
+            }
+        }
+    }
+}
+
+//继发for循环
 async function getSuccessive() {
     try {
         await rmdir('./map', {recursive: true})
